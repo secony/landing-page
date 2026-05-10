@@ -735,9 +735,10 @@
   footer {
     background: var(--dark-2);
     padding: 60px;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     border-top: 1px solid rgba(201,168,76,0.1);
   }
 
@@ -754,7 +755,8 @@
     font-size: 14px;
     line-height: 1.8;
     color: rgba(245,237,214,0.4);
-    max-width: 300px;
+    max-width: 400px;
+    text-align: center;
   }
 
   .footer-col h4 {
@@ -877,6 +879,7 @@
     display: flex;
     gap: 14px;
     margin-top: 24px;
+    justify-content: center;
   }
 
   .social-icon {
@@ -1350,25 +1353,7 @@
       </a>
     </div>
   </div>
-  <div class="footer-col">
-    <h4>Serviços</h4>
-    <ul>
-      <li><a href="#">Corte Clássico</a></li>
-      <li><a href="#">Barba Completa</a></li>
-      <li><a href="#">Combo Maycola</a></li>
-      <li><a href="#">Pigmentação</a></li>
-      <li><a href="#">Plano Mensal</a></li>
-    </ul>
-  </div>
-  <div class="footer-col">
-    <h4>Contato</h4>
-    <ul>
-      <li><a href="#">Instagram</a></li>
-      <li><a href="#">WhatsApp</a></li>
-      <li><a href="#">Google Maps</a></li>
-      <li><a href="#">Avalie-nos</a></li>
-    </ul>
-  </div>
+
 </footer>
 
 <div class="footer-bottom">
