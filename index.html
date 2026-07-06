@@ -172,33 +172,29 @@
     <p style="font-size:14px; color:rgba(245,237,214,0.4); max-width:260px; line-height:1.8; text-align:right;">Cada corte é único. Cada cliente sai com uma identidade.</p>
   </div>
 
-  <div class="gallery-grid">
-    <div class="gallery-item reveal tall">
-      <img src="images/sobrancelha.png" alt="Sobrancelha" loading="lazy">
-      <div class="gallery-overlay"><span>Sobrancelha</span></div>
-    </div>
-    <div class="gallery-item reveal">
-      <img src="images/barba.png" alt="Barba modelada" loading="lazy">
-      <div class="gallery-overlay"><span>Barba Completa</span></div>
-    </div>
-    <div class="gallery-item reveal">
-      <img src="images/fade+barba.png" alt="Fade masculino" loading="lazy">
-      <div class="gallery-overlay"><span>Fade + Barba</span></div>
-    </div>
-    <div class="gallery-item reveal">
-      <img src="images/social.png" alt="Corte social" loading="lazy">
-      <div class="gallery-overlay"><span>Social</span></div>
-    </div>
-    <div class="gallery-item reveal tall">
-      <img src= "images/degrade11.png" alt="Degradê" loading="lazy">
-      <div class="gallery-overlay"><span>Degradê</span></div>
-    </div>
-    <div class="gallery-item reveal">
-      <img src= "images/degrade.png" alt="Corte degradê" loading="lazy">
-      <div class="gallery-overlay"><span>Degradê + freestyle</span></div>
+  <!-- Abas de filtro: preenchidas dinamicamente pelo script.js a partir de
+       GALLERY_ITEMS, na mesma lógica do galeria.html do Nossa História -->
+  <div class="gallery-filters" id="galleryFilters"></div>
+
+  <!-- Grade preenchida via JS (ver GALLERY_ITEMS em script.js).
+       Adicionar uma foto nova = adicionar um objeto no array, sem tocar aqui. -->
+  <div class="gallery-grid" id="galleryGrid"></div>
+</section>
+
+<!-- LIGHTBOX DA GALERIA -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-bg" id="lightboxBg"></div>
+  <button class="lightbox-close" id="lightboxClose" aria-label="Fechar">✕</button>
+  <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Anterior">‹</button>
+  <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Próxima">›</button>
+  <div class="lightbox-box">
+    <img id="lightboxImg" src="" alt="">
+    <div class="lightbox-caption">
+      <span id="lightboxLabel"></span>
+      <span class="lightbox-count" id="lightboxCount"></span>
     </div>
   </div>
-</section>
+</div>
 
 <!-- DEPOIMENTOS -->
 <section class="testimonials-section" id="depoimentos">

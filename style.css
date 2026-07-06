@@ -642,8 +642,13 @@ nav {
 }
 
 /* AGENDAMENTO */
+/* Antes: background sólido em var(--gold), única seção do site sem o dourado
+   como accent. Corrigido para manter o padrão visual (fundo escuro + glow
+   dourado sutil), igual ao .hero-bg. */
 .booking-section {
-    background: var(--gold);
+    position: relative;
+    background: var(--dark-2);
+    overflow: hidden;
     padding: 100px 60px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -651,18 +656,36 @@ nav {
     align-items: center;
 }
 
+.booking-section::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201, 168, 76, 0.10) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.booking-left {
+    position: relative;
+    z-index: 1;
+}
+
 .booking-left .section-tag {
-    color: var(--dark);
-    opacity: 0.6;
+    color: var(--gold);
+    opacity: 1;
 }
 
 .booking-left .section-title {
-    color: var(--dark);
+    color: var(--cream);
     margin-bottom: 20px;
 }
 
 .booking-left p {
-    color: rgba(13, 13, 13, 0.6);
+    color: rgba(245, 237, 214, 0.6);
     font-size: 16px;
     line-height: 1.8;
     margin-bottom: 40px;
@@ -683,7 +706,8 @@ nav {
 .booking-info-icon {
     width: 44px;
     height: 44px;
-    background: rgba(13, 13, 13, 0.1);
+    background: rgba(201, 168, 76, 0.1);
+    border: 1px solid rgba(201, 168, 76, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -698,15 +722,17 @@ nav {
     font-size: 14px;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--dark);
+    color: var(--cream);
 }
 
 .booking-info-text span {
     font-size: 14px;
-    color: rgba(13, 13, 13, 0.6);
+    color: rgba(245, 237, 214, 0.6);
 }
 
 .booking-form {
+    position: relative;
+    z-index: 1;
     background: var(--dark);
     padding: 48px;
 }
@@ -854,7 +880,9 @@ footer {
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 260px 260px;
+    /* auto (não fixo em 2 linhas): com os filtros, uma categoria pode ter
+       só 1-2 fotos, e um grid-template-rows fixo deixaria linha vazia sobrando */
+    grid-auto-rows: 260px;
     gap: 4px;
 }
 
@@ -862,6 +890,7 @@ footer {
     position: relative;
     overflow: hidden;
     background: var(--dark-3);
+    cursor: pointer;
 }
 
 .gallery-item.tall {
@@ -902,6 +931,169 @@ footer {
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--gold);
+}
+
+/* ABAS DE FILTRO DA GALERIA */
+.gallery-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.gallery-filter-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245, 237, 214, 0.5);
+    background: transparent;
+    border: 1px solid rgba(201, 168, 76, 0.2);
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.gallery-filter-btn:hover {
+    color: var(--cream);
+    border-color: rgba(201, 168, 76, 0.5);
+}
+
+.gallery-filter-btn.active {
+    color: var(--dark);
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+/* LIGHTBOX */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lightbox-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(13, 13, 13, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.lightbox-box {
+    position: relative;
+    z-index: 1;
+    max-width: min(90vw, 760px);
+    width: 100%;
+    transform: scale(0.96) translateY(10px);
+    transition: transform 0.35s cubic-bezier(.16, 1, .3, 1);
+}
+
+.lightbox.open .lightbox-box {
+    transform: scale(1) translateY(0);
+}
+
+.lightbox-box img {
+    width: 100%;
+    max-height: 76vh;
+    object-fit: contain;
+    display: block;
+    border: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.lightbox-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 16px;
+    padding: 0 4px;
+}
+
+.lightbox-caption span:first-child {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.lightbox-count {
+    font-size: 12px;
+    color: rgba(245, 237, 214, 0.4);
+    letter-spacing: 1px;
+}
+
+.lightbox-close,
+.lightbox-arrow {
+    position: absolute;
+    z-index: 2;
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    color: var(--cream);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.lightbox-close:hover,
+.lightbox-arrow:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+.lightbox-close {
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 16px;
+}
+
+.lightbox-arrow {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 22px;
+}
+
+.lightbox-prev { left: 24px; }
+.lightbox-next { right: 24px; }
+
+.lightbox-arrow:disabled {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+@media (max-width: 640px) {
+    .lightbox-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+    .lightbox-prev { left: 8px; }
+    .lightbox-next { right: 8px; }
+    .lightbox-close {
+        top: 12px;
+        right: 12px;
+    }
 }
 
 @media (max-width: 900px) {
