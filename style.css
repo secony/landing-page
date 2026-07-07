@@ -1100,6 +1100,10 @@ footer {
     .gallery-grid {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
+        /* o gallery-grid base define grid-auto-rows:260px pro desktop; sem
+           essa sobrescrita aqui, a linha do grid reservava 260px mesmo com
+           itens de 180/220px, deixando um vão vazio abaixo de cada linha */
+        grid-auto-rows: auto;
     }
 
     .gallery-item.tall {
@@ -1117,6 +1121,10 @@ footer {
 }
 
 @media (max-width: 400px) {
+    .gallery-grid {
+        grid-auto-rows: auto;
+    }
+
     .gallery-item {
         height: 150px;
     }
