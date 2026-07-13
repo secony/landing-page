@@ -12,6 +12,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* Chrome Android mostra um flash cinza padrão ao tocar em links/botões;
+       iOS Safari não tem esse comportamento. Sem isso a interface "pisca"
+       diferente entre as duas plataformas. */
+    -webkit-tap-highlight-color: transparent;
 }
 
 html {
@@ -121,7 +125,11 @@ nav {
 
 /* HERO */
 .hero {
-    min-height: 100vh;
+    min-height: 100vh; /* fallback para navegadores sem suporte a svh */
+    /* 100vh diverge entre Android Chrome e iOS Safari conforme a barra de
+       endereço aparece/some; 100svh trata a barra como sempre visível,
+       então o botão "Agendar horário" nunca fica escondido atrás dela */
+    min-height: 100svh;
     display: grid;
     grid-template-columns: 1fr 1fr;
     position: relative;
@@ -272,6 +280,11 @@ nav {
     width: 70%;
     max-width: 400px;
     opacity: 0;
+    /* filter (não mix-blend-mode) porque blend-mode + animação de opacidade
+       é gatilho conhecido de promoção de camada de composição (GPU layer);
+       Android e iOS decidem essa promoção em momentos diferentes, o que
+       fazia o dourado renderizar diferente entre as duas plataformas */
+    filter: brightness(1.1);
     animation: fadeIn 1.2s ease 1s forwards;
 }
 
@@ -989,6 +1002,7 @@ footer {
     position: absolute;
     inset: 0;
     background: rgba(13, 13, 13, 0.95);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
