@@ -1,38 +1,54 @@
 // Custom cursor
+// Detecção de toque via JS: mais confiável que @media (hover:none) sozinho —
+// alguns WebViews Android (in-app browsers, ex. abrir o link de dentro de
+// outro app) relatam capacidades de hover incorretamente, fazendo o cursor
+// customizado do desktop aparecer no celular.
+const isTouchDevice =
+  "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
 const cursor = document.getElementById("cursor");
 const ring = document.getElementById("cursorRing");
-let mouseX = 0,
-  mouseY = 0;
-let ringX = 0,
-  ringY = 0;
 
-document.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  cursor.style.left = mouseX - 6 + "px";
-  cursor.style.top = mouseY - 6 + "px";
-});
+if (isTouchDevice) {
+  // Garante que o cursor nunca renderize em toque, independente da media query
+  document.documentElement.classList.add("is-touch");
+  document.body.style.cursor = "auto";
+  if (cursor) cursor.style.display = "none";
+  if (ring) ring.style.display = "none";
+} else {
+  let mouseX = 0,
+    mouseY = 0;
+  let ringX = 0,
+    ringY = 0;
 
-function animateRing() {
-  ringX += (mouseX - ringX - 18) * 0.12;
-  ringY += (mouseY - ringY - 18) * 0.12;
-  ring.style.left = ringX + "px";
-  ring.style.top = ringY + "px";
-  requestAnimationFrame(animateRing);
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX - 6 + "px";
+    cursor.style.top = mouseY - 6 + "px";
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX - 18) * 0.12;
+    ringY += (mouseY - ringY - 18) * 0.12;
+    ring.style.left = ringX + "px";
+    ring.style.top = ringY + "px";
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Hover effect on interactive elements
+  document.querySelectorAll("a, button, .service-card").forEach((el) => {
+    el.addEventListener("mouseenter", () => {
+      cursor.style.transform = "scale(2)";
+      ring.style.transform = "scale(1.5)";
+    });
+    el.addEventListener("mouseleave", () => {
+      cursor.style.transform = "scale(1)";
+      ring.style.transform = "scale(1)";
+    });
+  });
 }
-animateRing();
-
-// Hover effect on interactive elements
-document.querySelectorAll("a, button, .service-card").forEach((el) => {
-  el.addEventListener("mouseenter", () => {
-    cursor.style.transform = "scale(2)";
-    ring.style.transform = "scale(1.5)";
-  });
-  el.addEventListener("mouseleave", () => {
-    cursor.style.transform = "scale(1)";
-    ring.style.transform = "scale(1)";
-  });
-});
 
 // ============================================================
 // GALERIA — dados
